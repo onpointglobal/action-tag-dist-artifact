@@ -1,6 +1,8 @@
 # Container image that runs your code
-FROM alpine:3.10
+FROM node:14.4.0-alpine3.12
 
+RUN apk update \
+    && apk add git 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
 
