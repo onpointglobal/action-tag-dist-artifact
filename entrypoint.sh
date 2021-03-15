@@ -1,13 +1,7 @@
 #!/bin/sh -l
 
-echo "Hello $1"
-time=$(date)
-echo "::set-output name=time::$time"
-
 tag_version=$1
 wp_version=$(echo $1 | cut -c 2-) 
-echo "::set-output name=wp_version::$wp_version"
-
 git config --global user.name github-actions
 git config --global user.email github-actions@github.com
 yarn install
