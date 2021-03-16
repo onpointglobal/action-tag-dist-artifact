@@ -8,10 +8,7 @@ Action to build and tag the distributable files of a repository
 **Required** The number of the version to assign the release. Eg `"v0.0.1"`.
 
 ## Outputs
-
-### `time`
-
-The time we greeted you.
+ None yet
 
 ## Example usage
 
