@@ -11,6 +11,11 @@ RUN apk add --update \
     make \
     autoconf \
     automake \
+    zlib-dev \
+    musl \
+    nasm \
+    file \
+    build-base \
   && rm -rf /var/cache/apk/*
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
