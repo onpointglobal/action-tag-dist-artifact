@@ -1,8 +1,17 @@
 # Container image that runs your code
 FROM node:14.4.0-alpine3.12
 
-RUN apk update \
-    && apk add git 
+RUN apk add --update \
+    bash \
+    git \
+    lcms2-dev \
+    libpng-dev \
+    gcc \
+    g++ \
+    make \
+    autoconf \
+    automake \
+  && rm -rf /var/cache/apk/*
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
 
