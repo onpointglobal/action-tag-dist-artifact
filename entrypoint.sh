@@ -7,7 +7,12 @@ git config --global user.name github-actions
 git config --global user.email github-actions@github.com
 mv .distignore /tmp/.gitignore
 yarn install
-yarn build
+#yarn build
+if [[ ! -d dist ]]
+then
+    exit 1
+fi
+
 git checkout -b release-$tag_version
 mv /tmp/.gitignore .
 sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' style.css
