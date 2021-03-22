@@ -13,7 +13,6 @@ then
     echo "Dist folder doesn't exist"
     exit 1
 fi
-
 git checkout -b release-$tag_version
 mv /tmp/.gitignore .
 sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' style.css
