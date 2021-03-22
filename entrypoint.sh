@@ -11,7 +11,7 @@ yarn build
 git checkout -b release-$tag_version
 mv /tmp/.gitignore .
 sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' style.css
-blah
+exit 1
 git rm -r --cached .
 git add .
 git commit -am 'Created Tag '"$tag_version"''
