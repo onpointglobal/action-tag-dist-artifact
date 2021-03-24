@@ -18,7 +18,8 @@ mv /tmp/.gitignore .
 sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' style.css
 git rm -r --cached .
 git add .
-git commit -am 'Created Tag '"$tag_version"''
-git tag $tag_version
+MESSAGE=$(git log -1 HEAD --pretty=format:%s)
+git commit -am 'Created Tag '"$tag_version"' with '"$MESSAGE"''
+git tag $tag_version -m "$MESSAGE"
 git push origin release-$tag_version
 git push origin $tag_version --force
