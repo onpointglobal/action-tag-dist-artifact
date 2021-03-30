@@ -11,7 +11,7 @@ build_theme () {
         echo "Dist folder doesn't exist"
         exit 1
     fi
-    sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' $version_file_name
+    sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' "$version_file_name"
 }
 
 build_plugin () {
@@ -21,7 +21,7 @@ build_plugin () {
         yarn build
     fi
     old_version=$(awk '/Version/ {print $3}' op_tools_plugin.php)
-    sed -i -r 's:'"$old_version"':'"$wp_version"':g' $version_file_name
+    sed -i -r 's:'"$old_version"':'"$wp_version"':g' "$version_file_name"
 }
 
 
