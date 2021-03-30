@@ -1,5 +1,26 @@
 #!/bin/sh -l
 
+build_theme () {
+    yarn install
+    yarn build
+    if [[ ! -d dist ]]
+    then
+        echo "Dist folder doesn't exist"
+        exit 1
+    fi
+    sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' style.css
+}
+
+build_plugin () {
+    if [ -f "package.json" ];
+    then
+        yarn install
+        yarn build
+    fi
+    old_version=$(awk '/Version/ {print $3}' op_tools_plugin.php)
+    sed -i -r 's:'"$old_version"':'"$wp_version"':g' op_tools_plugin.php
+}
+
 tag_version=$1
 distignore=.distignore
 wp_version=$(echo $1 | cut -c 2-) 
@@ -25,25 +46,3 @@ git commit -am 'Created Tag '"$tag_version"' with '"$MESSAGE"''
 git tag $tag_version -m "$MESSAGE"
 git push origin release-$tag_version
 git push origin $tag_version --force
-
-
-build_theme () {
-    yarn install
-    yarn build
-    if [[ ! -d dist ]]
-    then
-        echo "Dist folder doesn't exist"
-        exit 1
-    fi
-    sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' style.css
-}
-
-build_plugin () {
-    if [ -f "package.json" ];
-    then
-        yarn install
-        yarn build
-    fi
-    old_version=$(awk '/Version/ {print $3}' op_tools_plugin.php)
-    sed -i -r 's:'"$old_version"':'"$wp_version"':g' op_tools_plugin.php
-}
