@@ -1,5 +1,8 @@
 #!/bin/sh -l
 
+tag_version=$1
+version_file_name=$2
+
 build_theme () {
     yarn install
     yarn build
@@ -8,7 +11,7 @@ build_theme () {
         echo "Dist folder doesn't exist"
         exit 1
     fi
-    sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' style.css
+    sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' $version_file_name
 }
 
 build_plugin () {
@@ -18,12 +21,12 @@ build_plugin () {
         yarn build
     fi
     old_version=$(awk '/Version/ {print $3}' op_tools_plugin.php)
-    sed -i -r 's:'"$old_version"':'"$wp_version"':g' op_tools_plugin.php
+    sed -i -r 's:'"$old_version"':'"$wp_version"':g' $version_file_name
 }
 
-tag_version=$1
+
 distignore=.distignore
-wp_version=$(echo $1 | cut -c 2-) 
+wp_version=$(echo $tag_version | cut -c 2-) 
 composer_package_name=$(jq -r '.type' composer.json)
 git config --global user.name github-actions
 git config --global user.email github-actions@github.com
