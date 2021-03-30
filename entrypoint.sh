@@ -1,7 +1,7 @@
 #!/bin/sh -l
 
 tag_version=$1
-version_file_name=$2
+file_to_bump_version=$2
 
 build_theme () {
     yarn install
@@ -11,7 +11,7 @@ build_theme () {
         echo "Dist folder doesn't exist"
         exit 1
     fi
-    sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' "$version_file_name"
+    sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' "$file_to_bump_version"
 }
 
 build_plugin () {
@@ -20,8 +20,8 @@ build_plugin () {
         yarn install
         yarn build
     fi
-    old_version=$(awk '/Version/ {print $3}' op_tools_plugin.php)
-    sed -i -r 's:'"$old_version"':'"$wp_version"':g' "$version_file_name"
+    old_version=$(awk '/Version/ {print $3}' "$file_to_bump_version")
+    sed -i -r 's:'"$old_version"':'"$wp_version"':g' "$file_to_bump_version"
 }
 
 

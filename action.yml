@@ -6,7 +6,7 @@ inputs:
     description: 'Tag Version'
     required: true
     default: ''
-  version_file:  # id of input
+  file_to_bump_version:  # id of input
     description: 'Name of the file to bump version string'
     required: true
     default: ''
@@ -15,4 +15,4 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.tag_version }}
-    - ${{ inputs.version_file }}
+    - ${{ inputs.file_to_bump_version }}
