@@ -10,9 +10,14 @@ inputs:
     description: 'Name of the file to bump version string'
     required: true
     default: ''
+  github_token:
+    description: 'Token for the repo. Can be passed in using $\{{ secrets.GITHUB_TOKEN }}'
+    required: false
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.tag_version }}
     - ${{ inputs.file_to_bump_version }}
+    - ${{ inputs.github_token }}
