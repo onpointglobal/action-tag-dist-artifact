@@ -30,7 +30,6 @@ wp_version=$(echo $tag_version | cut -c 2-)
 composer_package_name=$(jq -r '.type' composer.json)
 git config --global user.name github-actions
 git config --global user.email github-actions@github.com
-echo "Hola"
 mv .distignore /tmp/.gitignore
 
 if [ "wordpress-theme" == "$composer_package_name" ]; then
@@ -42,7 +41,6 @@ if [ "wordpress-plugin" == "$composer_package_name" ]; then
 fi
 
 mv /tmp/.gitignore .
-echo "checkout release"
 git checkout -b release-$tag_version
 git rm -r --cached .
 git add .
