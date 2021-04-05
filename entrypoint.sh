@@ -2,7 +2,6 @@
 
 tag_version=$1
 file_to_bump_version=$2
-github_token
 
 build_theme () {
     yarn install
@@ -50,9 +49,5 @@ git add .
 MESSAGE=$(git log -1 HEAD --pretty=format:%s)
 git commit -am 'Created Tag '"$tag_version"' with '"$MESSAGE"''
 git tag $tag_version -m "$MESSAGE"
-remote_repo="https://${GITHUB_ACTOR}:${github_token}@github.com/${GITHUB_REPOSITORY}.git"
-echo "debug remote_repo"
-echo "${remote_repo}"
-git push "${remote_repo}" release-$tag_version
-#git push origin release-$tag_version
-#git push origin $tag_version --force
+git push origin release-$tag_version
+git push origin $tag_version --force
