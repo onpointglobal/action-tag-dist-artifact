@@ -26,7 +26,6 @@ build_plugin () {
 
 
 distignore=.distignore
-echo "$tag_version"
 wp_version=$(echo $tag_version | cut -c 2-) 
 composer_package_name=$(jq -r '.type' composer.json)
 git config --global user.name github-actions
@@ -38,7 +37,7 @@ if [ "wordpress-theme" == "$composer_package_name" ]; then
 fi
 
 if [ "wordpress-plugin" == "$composer_package_name" ]; then
-    build_plugin
+    build_plugin $wp_version
 fi
 
 mv /tmp/.gitignore .
@@ -47,6 +46,6 @@ git rm -r --cached .
 git add .
 MESSAGE=$(git log -1 HEAD --pretty=format:%s)
 git commit -am 'Created Tag '"$tag_version"' with '"$MESSAGE"''
-git tag v"$tag_version" -m "$MESSAGE"
-# git push "$tag_version"
+git tag v$tag_version -m "$MESSAGE"
+git push v$tag_version
 git push origin release-$tag_version --follow-tags
