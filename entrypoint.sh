@@ -41,11 +41,11 @@ if [ "wordpress-plugin" == "$composer_package_name" ]; then
 fi
 
 mv /tmp/.gitignore .
-git checkout -b release-v$tag_version
+git checkout -b v$tag_version
 git rm -r --cached .
 git add .
 MESSAGE=$(git log -1 HEAD --pretty=format:%s)
 git commit -am 'Created Tag '"$tag_version"' with '"$MESSAGE"''
 git tag v$tag_version -m "$MESSAGE"
 # git push v$tag_version
-git push origin release-v$tag_version --follow-tags
+git push origin $tag_version --follow-tags
