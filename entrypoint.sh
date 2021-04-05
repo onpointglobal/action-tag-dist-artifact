@@ -47,5 +47,5 @@ git add .
 MESSAGE=$(git log -1 HEAD --pretty=format:%s)
 git commit -am 'Created Tag '"$tag_version"' with '"$MESSAGE"''
 git tag $tag_version -m "$MESSAGE"
-git push origin release-$tag_version
 git push origin $tag_version
+git push origin release-$tag_version --force
