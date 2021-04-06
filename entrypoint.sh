@@ -42,6 +42,7 @@ fi
 
 mv /tmp/.gitignore .
 git checkout -b $tag_version
+echo "$tag_version"
 git rm -r --cached .
 git add .
 MESSAGE=$(git log -1 HEAD --pretty=format:%s)
