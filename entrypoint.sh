@@ -45,12 +45,10 @@ mv /tmp/.gitignore .
 reqsubstr="RC"
 if [ -z "${tag_version##*$reqsubstr*}" ]; then
   echo "It's there 1!"
-  tag_version = $("$tag_version" | cut -f1 -d"C")
+  tag_version=$("$tag_version" | cut -f1 -d"C")
 fi
-echo $tag_version
 
 git checkout -b $tag_version
-echo "$tag_version"
 git rm -r --cached .
 git add .
 MESSAGE=$(git log -1 HEAD --pretty=format:%s)
