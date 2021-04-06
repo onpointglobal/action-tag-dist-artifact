@@ -42,10 +42,22 @@ fi
 
 mv /tmp/.gitignore .
 echo "check now"
-if [ ${tag_version} == *"RC"* ]; then
-  echo "It's there!"
+reqsubstr="RC"
+[ -z "${tag_version##*$reqsubstr*}" ]
+if [ -z "${string##*$reqsubstr*}" ]; then
+  echo "It's there 1!"
   echo "$tag_version" | cut -f1 -d"RC"
 fi
+
+if [ ${tag_version} == *"$reqsubstr"* ]; then
+  echo "It's there2!"
+  echo "$tag_version" | cut -f1 -d"RC"
+fi
+case "$string" in 
+  *RC*)
+    echo "It's there3!"
+    ;;
+esac
 
 git checkout -b $tag_version
 echo "$tag_version"
