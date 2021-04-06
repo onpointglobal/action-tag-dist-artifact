@@ -41,6 +41,11 @@ if [ "wordpress-plugin" == "$composer_package_name" ]; then
 fi
 
 mv /tmp/.gitignore .
+if [[ $tag_version == *"RC"* ]]; then
+  echo "It's there!"
+  echo "$tag_version" | cut -f1 -d"RC"
+fi
+
 git checkout -b $tag_version
 echo "$tag_version"
 git rm -r --cached .
