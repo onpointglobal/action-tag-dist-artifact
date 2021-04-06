@@ -41,23 +41,13 @@ if [ "wordpress-plugin" == "$composer_package_name" ]; then
 fi
 
 mv /tmp/.gitignore .
-echo "check now"
+
 reqsubstr="RC"
-[ -z "${tag_version##*$reqsubstr*}" ]
 if [ -z "${string##*$reqsubstr*}" ]; then
   echo "It's there 1!"
-  echo "$tag_version" | cut -f1 -d"RC"
+  tag_version = $("$tag_version" | cut -f1 -d"C")
 fi
-
-if [ ${tag_version} == *"$reqsubstr"* ]; then
-  echo "It's there2!"
-  echo "$tag_version" | cut -f1 -d"RC"
-fi
-case "$string" in 
-  *RC*)
-    echo "It's there3!"
-    ;;
-esac
+echo $tag_version
 
 git checkout -b $tag_version
 echo "$tag_version"
