@@ -42,7 +42,7 @@ fi
 
 mv /tmp/.gitignore .
 echo "check now"
-if [[ "$tag_version" =~ "RC" ]]; then
+if [[ ${tag_version} == *"RC"* ]]; then
   echo "It's there!"
   echo "$tag_version" | cut -f1 -d"RC"
 fi
