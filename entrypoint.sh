@@ -43,7 +43,7 @@ fi
 mv /tmp/.gitignore .
 
 reqsubstr="RC"
-if [ -z "${string##*$reqsubstr*}" ]; then
+if [ -z "${tag_version##*$reqsubstr*}" ]; then
   echo "It's there 1!"
   tag_version = $("$tag_version" | cut -f1 -d"C")
 fi
