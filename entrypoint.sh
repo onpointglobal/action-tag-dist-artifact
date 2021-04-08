@@ -11,7 +11,7 @@ build_theme () {
         echo "Dist folder doesn't exist"
         exit 1
     fi
-    sed -i 's/\(Version: \).*/Version: '"$wp_version"'/g' "$file_to_bump_version"
+    sed -i 's/\(Version: \).*/Version: '"$tag_version"'/g' "$file_to_bump_version"
 }
 
 build_plugin () {
@@ -21,30 +21,28 @@ build_plugin () {
         yarn build
     fi
     old_version=$(awk '/Version/ {print $3}' "$file_to_bump_version")
-    sed -i -r 's:'"$old_version"':'"$wp_version"':g' "$file_to_bump_version"
+    sed -i -r 's:'"$old_version"':'"$tag_version"':g' "$file_to_bump_version"
 }
 
 
 distignore=.distignore
-wp_version=$(echo $tag_version | cut -c 2-) 
 composer_package_name=$(jq -r '.type' composer.json)
 git config --global user.name github-actions
 git config --global user.email github-actions@github.com
 mv .distignore /tmp/.gitignore
 
 if [ "wordpress-theme" == "$composer_package_name" ]; then
-    build_theme $wp_version
+    build_theme $tag_version
 fi
 
 if [ "wordpress-plugin" == "$composer_package_name" ]; then
-    build_plugin $wp_version
+    build_plugin $tag_version
 fi
 
 mv /tmp/.gitignore .
 
 reqsubstr="RC"
 if [ -z "${tag_version##*$reqsubstr*}" ]; then
-  echo "It's there 1!"
   tag_version=${tag_version:: -2} 
 fi
 
