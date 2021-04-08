@@ -44,6 +44,9 @@ mv /tmp/.gitignore .
 reqsubstr="RC"
 if [ -z "${tag_version##*$reqsubstr*}" ]; then
   tag_version=${tag_version:: -2} 
+  echo "entre"
+  echo "$tag_version"
+
 fi
 
 git checkout -b $tag_version
