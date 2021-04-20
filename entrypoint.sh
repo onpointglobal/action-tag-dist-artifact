@@ -54,5 +54,5 @@ git add .
 MESSAGE=$(git log -1 HEAD --pretty=format:%s)
 git commit -am 'Created Tag '"$tag_version"' with '"$MESSAGE"''
 git tag v$tag_version -m "$MESSAGE"
-# git push v$tag_version
-git push origin $tag_version --follow-tags
+git push origin v$tag_version
+# git push origin v$tag_version --follow-tags
