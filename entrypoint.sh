@@ -1,16 +1,26 @@
 #!/bin/sh -l
 
+set -e  # Exit immediately if a command exits with a non-zero status
+
 tag_version=$1
 file_to_bump_version=$2
+
+check_dist_folder() {
+    if grep -q "/dist" .gitignore; then
+        echo "Dist folder is included in .gitignore, checking contents..."
+        if [ ! -d "dist" ] || [ -z "$(ls -A dist)" ]; then
+            echo "Dist folder is empty or does not exist"
+            exit 1
+        fi
+    else
+        echo "No dist folder required according to .gitignore"
+    fi
+}
 
 build_theme () {
     yarn install
     yarn build
-    if [[ ! -d dist ]]
-    then
-        echo "Dist folder doesn't exist"
-        exit 1
-    fi
+		check_dist_folder
     sed -i 's/\(Version: \).*/Version: '"$tag_version"'/g' "$file_to_bump_version"
 }
 
@@ -20,6 +30,7 @@ build_plugin () {
         yarn install
         yarn build
     fi
+		check_dist_folder
     old_version=$(awk '/Version/ {print $3}' "$file_to_bump_version")
     sed -i -r 's:'"$old_version"':'"$tag_version"':g' "$file_to_bump_version"
 }
