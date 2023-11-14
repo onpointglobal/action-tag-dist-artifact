@@ -10,7 +10,7 @@ inputs:
     description: 'Name of the file to bump version string'
     required: true
     default: ''
-  file_to_bump_version:  # id of input
+  folders_to_check:  # id of input
     description: 'Folder to check if exists'
     required: false
     default: ''
@@ -21,3 +21,4 @@ runs:
   args:
     - ${{ inputs.tag_version }}
     - ${{ inputs.file_to_bump_version }}
+    - ${{ inputs.folders_to_check }}
