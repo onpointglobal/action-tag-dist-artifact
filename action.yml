@@ -10,6 +10,10 @@ inputs:
     description: 'Name of the file to bump version string'
     required: true
     default: ''
+  file_to_bump_version:  # id of input
+    description: 'Folder to check if exists'
+    required: false
+    default: ''
 
 runs:
   using: 'docker'
