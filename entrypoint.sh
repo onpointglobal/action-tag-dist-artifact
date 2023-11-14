@@ -4,23 +4,26 @@ set -e  # Exit immediately if a command exits with a non-zero status
 
 tag_version=$1
 file_to_bump_version=$2
+folders_to_check=$3  # Optional space-separated list of folder paths
 
-check_dist_folder() {
-    if grep -q "/dist" .gitignore; then
-        echo "Dist folder is included in .gitignore, checking contents..."
-        if [ ! -d "dist" ] || [ -z "$(ls -A dist)" ]; then
-            echo "Dist folder is empty or does not exist"
-            exit 1
-        fi
+check_folders() {
+    if [ -n "$folders_to_check" ]; then
+        echo "Checking specified folders..."
+        for folder in $folders_to_check; do
+            if [ ! -d "$folder" ]; then
+                echo "Expected folder $folder is missing"
+                exit 1
+            fi
+        done
     else
-        echo "No dist folder required according to .gitignore"
+        echo "No specific folders to check"
     fi
 }
 
 build_theme () {
     yarn install
     yarn build
-		check_dist_folder
+		check_folders
     sed -i 's/\(Version: \).*/Version: '"$tag_version"'/g' "$file_to_bump_version"
 }
 
@@ -30,7 +33,7 @@ build_plugin () {
         yarn install
         yarn build
     fi
-		check_dist_folder
+		check_folders
     old_version=$(awk '/Version/ {print $3}' "$file_to_bump_version")
     sed -i -r 's:'"$old_version"':'"$tag_version"':g' "$file_to_bump_version"
 }
