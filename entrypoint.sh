@@ -31,7 +31,9 @@ build_plugin () {
     if [ -f "package.json" ];
     then
         yarn install
-        yarn build
+        if jq -e '.scripts.build' package.json >/dev/null 2>&1; then
+            yarn build
+        fi
     fi
 		check_folders
     old_version=$(awk '/Version/ {print $3}' "$file_to_bump_version")
