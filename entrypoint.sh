@@ -30,10 +30,12 @@ build_theme () {
 build_plugin () {
     if [ -f "package.json" ];
     then
-        yarn install
-        yarn build
+        if jq -e '.scripts.build' package.json >/dev/null 2>&1; then
+            yarn install
+            yarn build
+        fi
     fi
-		check_folders
+	check_folders
     old_version=$(awk '/Version/ {print $3}' "$file_to_bump_version")
     sed -i -r 's:'"$old_version"':'"$tag_version"':g' "$file_to_bump_version"
 }
