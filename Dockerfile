@@ -25,10 +25,19 @@ RUN apk add --update \
 ENV NVM_DIR=/root/.nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
+# 3) Tell Docker to use bash for the next RUN
+SHELL ["/bin/bash", "-lc"]
+
 # Pre‐install both Node versions and set 14.4.0 as the default
-RUN . "$NVM_DIR/nvm.sh" \
-	&& for v in 14.4.0 22.17.0; do nvm install "$v"; done \
+# 4) Under bash, load nvm and install both Node versions
+RUN source "$NVM_DIR/nvm.sh" \
+	&& nvm install 14.4.0 \
+	&& nvm install 22.17.0 \
 	&& nvm alias default 14.4.0
+
+# 5) Restore to plain sh if you like
+SHELL ["/bin/sh", "-l"]
+
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
