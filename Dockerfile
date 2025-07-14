@@ -1,50 +1,32 @@
-# Container image that runs your code
-# FROM node:14.4.0-alpine3.12
-FROM alpine:3.12
+# syntax=docker/dockerfile:1
 
-RUN apk add --update \
-    bash \
-		curl \
-    git \
-    lcms2-dev \
-    libpng-dev \
-    autoconf \
-    automake \
-    zlib-dev \
-    musl \
-    nasm \
-    file \
-    build-base \
-    jq \
-    libjpeg \
-		python2 \
-		python2-dev \
-		linux-headers \
-  && rm -rf /var/cache/apk/* 
+# 1) Allow overriding Node & Alpine versions via build-args
+ARG NODE_VERSION=14.4.0
+ARG ALPINE_VERSION=3.12
 
-# 2. Install NVM
-ENV NVM_DIR=/root/.nvm \
-	NVM_VERSION=v0.40.3 \
-	NODE_DEFAULT=14.4.0 \
-	NODE_ALT=22.17.0
+# 2) Use the official Node image with musl binaries
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION}
 
-# Fetch NVM, install it, then install both versions & set default
-RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash \
-	&& source "$NVM_DIR/nvm.sh" \
-	&& nvm install $NODE_DEFAULT \
-	&& nvm install $NODE_ALT \
-	&& nvm alias default $NODE_DEFAULT \
-	&& nvm cache clear
+# 3) Install any extra runtime/build deps needed by your script
+RUN apk add --no-cache \
+	bash \
+	git \
+	lcms2-dev \
+	libpng-dev \
+	autoconf \
+	automake \
+	zlib-dev \
+	nasm \
+	file \
+	build-base \
+	jq \
+	libjpeg \
+	python3 && \
+	ln -sf /usr/bin/python3 /usr/bin/python
 
-# Ensure the default Node is on the PATH
-ENV PATH="$NVM_DIR/versions/node/v${NODE_DEFAULT}/bin:$PATH"
-
-# 5) Restore to plain sh if you like
-SHELL ["/bin/sh", "-l"]
-
-
-# Copies your code file from your action repository to the filesystem path `/` of the container
+# 4) Copy and set up your entrypoint
 COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
+# 5) Execute the entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
