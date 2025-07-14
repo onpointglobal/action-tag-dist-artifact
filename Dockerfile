@@ -8,9 +8,6 @@ RUN apk add --update \
     git \
     lcms2-dev \
     libpng-dev \
-    gcc \
-    g++ \
-    make \
     autoconf \
     automake \
     zlib-dev \
@@ -20,8 +17,9 @@ RUN apk add --update \
     build-base \
     jq \
     libjpeg \
-		python3 \
-		py3-setuptools \
+		python2 \
+		python2-dev \
+		linux-headers \
   && rm -rf /var/cache/apk/* 
 
 # 2. Install NVM
