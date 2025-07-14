@@ -1,6 +1,6 @@
 # Container image that runs your code
 # FROM node:14.4.0-alpine3.12
-FROM alpine:3.22.0
+FROM alpine:3.12
 
 RUN apk add --update \
     bash \
