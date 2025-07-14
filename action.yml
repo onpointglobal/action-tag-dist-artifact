@@ -27,6 +27,7 @@ runs:
   using: 'docker'
   image:
     build:
+      context: .
       dockerfile: Dockerfile     # the Dockerfile in this repo
       args:
         NODE_VERSION: ${{ inputs.node_version }}
