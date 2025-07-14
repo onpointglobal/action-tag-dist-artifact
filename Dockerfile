@@ -21,6 +21,7 @@ RUN apk add --update \
     jq \
     libjpeg \
 		python3 \
+		py3-setuptools \
   && rm -rf /var/cache/apk/* 
 
 # 2. Install NVM
