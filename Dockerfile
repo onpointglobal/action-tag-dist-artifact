@@ -4,6 +4,7 @@ FROM alpine:3.22.0
 
 RUN apk add --update \
     bash \
+		curl \
     git \
     lcms2-dev \
     libpng-dev \
