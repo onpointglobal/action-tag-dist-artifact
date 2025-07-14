@@ -1,5 +1,5 @@
 # Container image that runs your code
-FROM node:14.4.0-alpine3.12
+FROM node:22.17.0-alpine3.22
 
 RUN apk add --update \
 	bash \
