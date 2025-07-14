@@ -6,6 +6,27 @@ tag_version=$1
 file_to_bump_version=$2
 folders_to_check=$3  # Optional space-separated list of folder paths
 
+#
+# 1) Load NVM so we can switch Node versions at runtime
+#
+export NVM_DIR="/root/.nvm"
+# shellcheck source=/dev/null
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+#
+# 2) Choose Node version:
+#    - If .nvmrc exists, install & use that version
+#    - Otherwise fall back to the 'default' alias (14.4.0)
+#
+if [ -f ".nvmrc" ]; then
+  echo "⏳ Using Node version from .nvmrc"
+  nvm install
+  nvm use
+else
+  echo "⚙️  No .nvmrc found—using default Node version"
+  nvm use default
+fi
+
 check_folders() {
     if [ -n "$folders_to_check" ]; then
         echo "Checking specified folders..."
