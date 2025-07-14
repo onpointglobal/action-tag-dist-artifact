@@ -22,18 +22,21 @@ RUN apk add --update \
   && rm -rf /var/cache/apk/* 
 
 # 2. Install NVM
-ENV NVM_DIR=/root/.nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+ENV NVM_DIR=/root/.nvm \
+	NVM_VERSION=v0.40.3 \
+	NODE_DEFAULT=14.4.0 \
+	NODE_ALT=22.17.0
 
-# 3) Tell Docker to use bash for the next RUN
-SHELL ["/bin/bash", "-lc"]
+# Fetch NVM, install it, then install both versions & set default
+RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash \
+	&& source "$NVM_DIR/nvm.sh" \
+	&& nvm install $NODE_DEFAULT \
+	&& nvm install $NODE_ALT \
+	&& nvm alias default $NODE_DEFAULT \
+	&& nvm cache clear
 
-# Pre‐install both Node versions and set 14.4.0 as the default
-# 4) Under bash, load nvm and install both Node versions
-RUN source "$NVM_DIR/nvm.sh" \
-	&& nvm install 14.4.0 \
-	&& nvm install 22.17.0 \
-	&& nvm alias default 14.4.0
+# Ensure the default Node is on the PATH
+ENV PATH="$NVM_DIR/versions/node/v${NODE_DEFAULT}/bin:$PATH"
 
 # 5) Restore to plain sh if you like
 SHELL ["/bin/sh", "-l"]
