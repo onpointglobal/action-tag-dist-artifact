@@ -45,6 +45,7 @@ distignore=.distignore
 composer_package_name=$(jq -r '.type' composer.json)
 git config --global user.name github-actions
 git config --global user.email github-actions@github.com
+git config --global --add safe.directory /github/workspace
 mv .distignore /tmp/.gitignore
 
 reqsubstr="RC"
