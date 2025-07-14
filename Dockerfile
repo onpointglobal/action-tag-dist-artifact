@@ -1,32 +1,26 @@
-# syntax=docker/dockerfile:1
+# Container image that runs your code
+FROM node:14.4.0-alpine3.12
 
-# 1) Allow overriding Node & Alpine versions via build-args
-ARG NODE_VERSION=14.4.0
-ARG ALPINE_VERSION=3.12
-
-# 2) Use the official Node image with musl binaries
-FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION}
-
-# 3) Install any extra runtime/build deps needed by your script
-RUN apk add --no-cache \
+RUN apk add --update \
 	bash \
 	git \
 	lcms2-dev \
 	libpng-dev \
+	gcc \
+	g++ \
+	make \
 	autoconf \
 	automake \
 	zlib-dev \
+	musl \
 	nasm \
 	file \
 	build-base \
 	jq \
 	libjpeg \
-	python3 && \
-	ln -sf /usr/bin/python3 /usr/bin/python
-
-# 4) Copy and set up your entrypoint
+	&& rm -rf /var/cache/apk/* 
+# Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
-# 5) Execute the entrypoint
+# Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]

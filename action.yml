@@ -1,36 +1,23 @@
 # action.yml
 name: 'Tag Distributable Artifact'
-description: 'Build the dist files of a repo and create a Git tag.'
+description: 'Build the dist files of a repo and add it as a tag.'
 inputs:
-  tag_version:             # id of input
+  tag_version:  # id of input
     description: 'Tag Version'
     required: true
     default: ''
-  file_to_bump_version:    # id of input
-    description: 'File path in which to bump the version string'
+  file_to_bump_version:  # id of input
+    description: 'Name of the file to bump version string'
     required: true
     default: ''
-  folders_to_check:        # id of input
-    description: 'Space-separated list of folders to verify exist'
+  folders_to_check:  # id of input
+    description: 'Folder to check if exists'
     required: false
     default: ''
-  node_version:            # id of input
-    description: 'Node.js version for the Docker build (e.g. 14.4.0 or 22.17.0)'
-    required: false
-    default: '14.4.0'
-  alpine_version:          # id of input
-    description: 'Alpine Linux version for the Docker build (e.g. 3.12 or 3.22.0)'
-    required: false
-    default: '3.12'
 
 runs:
   using: 'docker'
-  image:
-    name: Dockerfile
-    build:
-      args:
-        NODE_VERSION: ${{ inputs.node_version }}
-        ALPINE_VERSION: ${{ inputs.alpine_version }}
+  image: 'Dockerfile'
   args:
     - ${{ inputs.tag_version }}
     - ${{ inputs.file_to_bump_version }}
