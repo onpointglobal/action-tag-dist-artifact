@@ -1,15 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh -l
 
-set -euo pipefail
-
-# Initialize fnm in this shell, install & use the requested version
-eval "$(/usr/local/bin/fnm env --use-on-cd --shell bash)"
-
-REQ_NODE="${ACTION_NODE_VERSION:-22.17.0}"
-/usr/local/bin/fnm install "${REQ_NODE}"
-/usr/local/bin/fnm use "${REQ_NODE}"
-
-echo "Using Node: $(node -v) / npm: $(npm -v)"
+set -e  # Exit immediately if a command exits with a non-zero status
 
 tag_version=$1
 file_to_bump_version=$2
@@ -30,8 +21,8 @@ check_folders() {
 }
 
 build_theme () {
-    npm ci --omit=dev
-    npm run build
+    yarn install
+    yarn build
 		check_folders
     sed -i 's/\(Version: \).*/Version: '"$tag_version"'/g' "$file_to_bump_version"
 }
@@ -40,8 +31,8 @@ build_plugin () {
     if [ -f "package.json" ];
     then
         if jq -e '.scripts.build' package.json >/dev/null 2>&1; then
-            npm ci --omit=dev
-            npm run build
+            yarn install
+            yarn build
         fi
     fi
 	check_folders

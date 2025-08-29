@@ -1,22 +1,26 @@
-# syntax=docker/dockerfile:1
-FROM debian:12-slim
+# Container image that runs your code
+FROM node:22.17.0-alpine3.22
 
-# Basic deps
-RUN apt-get update && apt-get install -y --no-install-recommends \
-	bash curl unzip ca-certificates git jq \
-	build-essential autoconf automake nasm file \
-	libpng-dev libjpeg-dev zlib1g-dev \
-	&& rm -rf /var/lib/apt/lists/*
-
-# Install fnm (Fast Node Manager), skip shell edits
-RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "/opt/fnm" --skip-shell \
-	&& ln -s /opt/fnm/fnm /usr/local/bin/fnm \
-	&& fnm --version
-
-# Optional: fnm shims dir in PATH (harmless)
-ENV PATH="/root/.local/share/fnm:$PATH"
-
+RUN apk add --update \
+	bash \
+	git \
+	lcms2-dev \
+	libpng-dev \
+	gcc \
+	g++ \
+	make \
+	autoconf \
+	automake \
+	zlib-dev \
+	musl \
+	nasm \
+	file \
+	build-base \
+	jq \
+	libjpeg \
+	&& rm -rf /var/cache/apk/* 
+# Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
+# Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
