@@ -22,10 +22,10 @@ RUN apk add --update \
 	&& rm -rf /var/cache/apk/* 
 
 # Install fnm (Fast Node Manager)
-ENV FNM_DIR=/opt/fnm
-RUN mkdir -p $FNM_DIR \
-	&& curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir $FNM_DIR --skip-shell \
-	&& ln -s $FNM_DIR/fnm /usr/local/bin/fnm
+RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- \
+	--install-dir "/opt/fnm" \
+	--skip-shell \
+	&& ln -s /opt/fnm/fnm /usr/local/bin/fnm
 
 	# Ensure fnm shims are discoverable later
 ENV PATH="/root/.local/share/fnm:$PATH"
