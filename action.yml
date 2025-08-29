@@ -19,9 +19,7 @@ inputs:
 
 runs:
   using: docker
-  image: Dockerfile
-  env:
-    ACTION_NODE_VERSION: ${{ inputs.node_version }}
+  image: docker/Dockerfile.node14
   args:
     - ${{ inputs.tag_version }}
     - ${{ inputs.file_to_bump_version }}
