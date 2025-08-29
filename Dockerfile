@@ -2,30 +2,25 @@
 FROM alpine:3.22
 
 # System deps
-RUN apk add --update \
+RUN apk add --no-cache \
 	bash \
+	curl \
+	unzip \
 	git \
+	jq \
+	ca-certificates \
 	lcms2-dev \
 	libpng-dev \
-	gcc \
-	g++ \
-	make \
-	autoconf \
-	automake \
-	zlib-dev \
-	musl \
-	nasm \
-	file \
-	build-base \
-	jq \
 	libjpeg-turbo-dev \
+	gcc g++ make autoconf automake zlib-dev musl nasm file build-base \
 	&& rm -rf /var/cache/apk/* 
 
 # Install fnm (Fast Node Manager)
 RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- \
 	--install-dir "/opt/fnm" \
 	--skip-shell \
-	&& ln -s /opt/fnm/fnm /usr/local/bin/fnm
+	&& ln -sf /opt/fnm/fnm /usr/local/bin/fnm \
+	&& /usr/local/bin/fnm --version
 
 	# Ensure fnm shims are discoverable later
 ENV PATH="/root/.local/share/fnm:$PATH"

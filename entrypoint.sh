@@ -3,10 +3,13 @@
 set -e  # Exit immediately if a command exits with a non-zero status
 
 # Initialize fnm in this shell, install & use the requested version
-eval "$(fnm env --use-on-cd --shell bash)"
+eval "$(/usr/local/bin/fnm env --use-on-cd --shell bash)"
+
 REQ_NODE="${ACTION_NODE_VERSION:-22.17.0}"
-fnm install "${REQ_NODE}"
-fnm use "${REQ_NODE}"
+/usr/local/bin/fnm install "${REQ_NODE}"
+/usr/local/bin/fnm use "${REQ_NODE}"
+
+echo "Using Node: $(node -v) / npm: $(npm -v)"
 
 tag_version=$1
 file_to_bump_version=$2
