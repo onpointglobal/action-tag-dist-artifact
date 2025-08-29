@@ -2,9 +2,19 @@
 
 set -e  # Exit immediately if a command exits with a non-zero status
 
+
+REQ_NODE="${ACTION_NODE_VERSION:-22.17.0}"
 tag_version=$1
 file_to_bump_version=$2
 folders_to_check=$3  # Optional space-separated list of folder paths
+
+# Initialize fnm in this shell, install & use the requested version
+eval "$(/usr/local/bin/fnm env --use-on-cd)"
+fnm install "$REQ_NODE"
+fnm use "$REQ_NODE"
+
+node -v
+npm -v
 
 check_folders() {
     if [ -n "$folders_to_check" ]; then
