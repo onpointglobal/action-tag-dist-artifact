@@ -15,7 +15,7 @@ inputs:
     required: false
     default: ''
   node_version:
-    description: 'Node version to use (e.g., 22.17.0 or 14.21.3). Can also be an alias if your runtime installer supports it (e.g., lts).'
+    description: 'Node version to use (e.g., 22.17.0, 14.21.3, lts)'
     required: false
     default: '22.17.0'
 
