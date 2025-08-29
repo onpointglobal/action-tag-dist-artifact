@@ -1,27 +1,25 @@
-name: 'Tag Distributable Artifact'
-description: 'Build the dist files of a repo and add it as a tag.'
+name: "Tag Distributable Artifact"
+description: "Build the dist files of a repo and add it as a tag."
 
 inputs:
   tag_version:
-    description: 'Tag Version'
+    description: "Tag Version"
     required: true
-    default: ''
   file_to_bump_version:
-    description: 'Name of the file to bump version string'
+    description: "Name of the file to bump version string"
     required: true
-    default: ''
   folders_to_check:
-    description: 'Folder(s) to check if they exist (space-separated)'
+    description: "Space-separated list of folders to verify after build"
     required: false
-    default: ''
+    default: ""
   node_version:
-    description: 'Node version to use (e.g., 22.17.0, 14.21.3, lts)'
+    description: "Node version (e.g., 22, 22.17.0, 14.21.3, lts)"
     required: false
-    default: '22.17.0'
+    default: "22"
 
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: docker
+  image: Dockerfile
   env:
     ACTION_NODE_VERSION: ${{ inputs.node_version }}
   args:
