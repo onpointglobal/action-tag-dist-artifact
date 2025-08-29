@@ -22,6 +22,8 @@ RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- \
 	&& ln -sf /opt/fnm/fnm /usr/local/bin/fnm \
 	&& /usr/local/bin/fnm --version
 
+ENV FNM_NODE_DIST_MIRROR="https://unofficial-builds.nodejs.org/download/release"
+
 	# Ensure fnm shims are discoverable later
 ENV PATH="/root/.local/share/fnm:$PATH"
 # Copies your code file from your action repository to the filesystem path `/` of the container

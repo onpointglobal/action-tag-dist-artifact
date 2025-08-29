@@ -1,6 +1,6 @@
-#!/bin/sh -l
+#!/usr/bin/env bash
 
-set -e  # Exit immediately if a command exits with a non-zero status
+set -euo pipefail
 
 # Initialize fnm in this shell, install & use the requested version
 eval "$(/usr/local/bin/fnm env --use-on-cd --shell bash)"
