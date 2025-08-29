@@ -21,8 +21,8 @@ check_folders() {
 }
 
 build_theme () {
-    yarn install
-    yarn build
+    npm ci --omit=dev
+    npm run build
 		check_folders
     sed -i 's/\(Version: \).*/Version: '"$tag_version"'/g' "$file_to_bump_version"
 }
@@ -31,8 +31,8 @@ build_plugin () {
     if [ -f "package.json" ];
     then
         if jq -e '.scripts.build' package.json >/dev/null 2>&1; then
-            yarn install
-            yarn build
+            npm ci --omit=dev
+            npm run build
         fi
     fi
 	check_folders
